@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     #region Fields
     [SerializeField] Button _startGameButton;
     [SerializeField] Button _exitGameButton;
+    [SerializeField] private AudioSource _audioSource;
     #endregion
 
     #region Unity Callbacks
@@ -15,6 +16,16 @@ public class MainMenu : MonoBehaviour
     {
         _startGameButton.onClick.AddListener(StartGame);
         _exitGameButton.onClick.AddListener(ExitGame);
+
+        if(_audioSource != null)
+        {
+            _audioSource.loop = true;
+            _audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("No se asignó el AudioSource al Main Menu");
+        }
     }
 
     #endregion
@@ -27,6 +38,9 @@ public class MainMenu : MonoBehaviour
 
     private void StartGame()
     {
+        if (_audioSource != null)
+            _audioSource.Stop();
+
         SceneManager.LoadScene("GameOn");
     }
     #endregion
