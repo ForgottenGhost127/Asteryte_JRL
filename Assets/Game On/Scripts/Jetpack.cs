@@ -85,11 +85,6 @@ public class Jetpack : MonoBehaviour
 		float horizontalVelocity = flyDirection == Direction.Left ? -_horizontalForce : _horizontalForce;
 		_targetRB.velocity = new Vector2(horizontalVelocity, _targetRB.velocity.y);
 
-		//if (flyDirection == Direction.Left)
-		//	_targetRB.AddForce(Vector2.left * _horizontalForce);
-		//else
-		//	_targetRB.AddForce(Vector2.right * _horizontalForce);
-
 	}
 	#endregion
 
@@ -99,9 +94,7 @@ public class Jetpack : MonoBehaviour
 		if (Energy > 0)
 		{
 			_targetRB.velocity = new Vector2(_targetRB.velocity.x, _flyForce);
-			//_targetRB.AddForce(Vector2.up * _flyForce);
 			Energy -= _energyFlyingRatio;
-
 			Debug.Log($"Aplicando fuerza: {_flyForce}, Energía restante: {Energy}");
 		}
 		else

@@ -5,22 +5,27 @@ public class InputController : MonoBehaviour
 {
 	#region Fields
 	[SerializeField] private Jetpack _jetpack;
+	[SerializeField] private Player _player;
 	#endregion
 
 	#region Unity Callbacks
     void Update()
     {
-		//Horizontal Fly
-		if (Input.GetAxis("Horizontal") < 0)
-			_jetpack.FlyHorizontal(Jetpack.Direction.Left);
-		if (Input.GetAxis("Horizontal") > 0)
-			_jetpack.FlyHorizontal(Jetpack.Direction.Right);
+		//Walking
+		float horizontalInput = Input.GetAxis("Horizontal");
+		_player.Move(horizontalInput);
 
-		//Vertical Fly
-		if (Input.GetAxis("Vertical") > 0)
-			_jetpack.FlyUp();
-		else
-			_jetpack.StopFlying();
+		//// Horizontal Fly
+		//if (Input.GetAxis("Horizontal") < 0)
+		//	_jetpack.FlyHorizontal(Jetpack.Direction.Left);
+		//if (Input.GetAxis("Horizontal") > 0)
+		//	_jetpack.FlyHorizontal(Jetpack.Direction.Right);
+		//// Vertical Fly
+		//if (Input.GetAxis("Vertical") > 0)
+		//	_jetpack.FlyUp();
+		//else
+		//	_jetpack.StopFlying();
+
 
 	}
 	#endregion
