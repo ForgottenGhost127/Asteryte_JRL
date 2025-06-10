@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 	private Animator _anim;
 	private Rigidbody2D _rb;
 	private SpriteRenderer _spriteRender;
-	private bool _facingRight = true;
+	private bool _facingLeft = true;
 	#endregion
 
 	#region Unity Callbacks
@@ -36,9 +36,9 @@ public class Player : MonoBehaviour
 			bool isWalking = Mathf.Abs(horizontalInput) > 0.1f;
 			_anim.SetBool("Walking", isWalking);
 
-			if (horizontalInput > 0 && !_facingRight)
+			if (horizontalInput > 0 && !_facingLeft)
 				Flip();
-			else if (horizontalInput < 0 && _facingRight)
+			else if (horizontalInput < 0 && _facingLeft)
 				Flip();
         }
     }
@@ -47,8 +47,8 @@ public class Player : MonoBehaviour
 	#region Private Methods
 	private void Flip()
     {
-		_facingRight = !_facingRight;
-		_spriteRender.flipX = !_facingRight;
+		_facingLeft = !_facingLeft;
+		_spriteRender.flipX = !_facingLeft;
     }
 	#endregion
 
