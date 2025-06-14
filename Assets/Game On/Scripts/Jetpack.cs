@@ -50,8 +50,6 @@ public class Jetpack : MonoBehaviour
 		if (Flying)
 			DoFly();
 
-		//Le quitamos el signo a la velocidad si es negativa.
-		//Luego si es menor de 0.1, consideramos que estamos parados y cargamos
 		if (Mathf.Abs(_targetRB.velocity.y) < 0.1f)
 			Regenerate();
 	}
@@ -82,10 +80,8 @@ public class Jetpack : MonoBehaviour
 		if (!Flying)
 			return;
 
-		if (flyDirection == Direction.Left)
-			_targetRB.AddForce(Vector2.left * _horizontalForce);
-		else
-			_targetRB.AddForce(Vector2.right * _horizontalForce);
+		float horizontalVelocity = flyDirection == Direction.Left ? -_horizontalForce : _horizontalForce;
+		_targetRB.velocity = new Vector2(horizontalVelocity, _targetRB.velocity.y);
 
 	}
 	#endregion
@@ -95,8 +91,9 @@ public class Jetpack : MonoBehaviour
 	{
 		if (Energy > 0)
 		{
-			_targetRB.AddForce(Vector2.up * _flyForce);
+			_targetRB.velocity = new Vector2(_targetRB.velocity.x, _flyForce);
 			Energy -= _energyFlyingRatio;
+			Debug.Log($"Aplicando fuerza: {_flyForce}, Energía restante: {Energy}");
 		}
 		else
 			Flying = false;

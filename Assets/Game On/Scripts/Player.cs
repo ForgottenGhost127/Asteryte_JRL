@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 	private Animator _anim;
 	private Rigidbody2D _rb;
 	private SpriteRenderer _spriteRender;
-	private bool _facingLeft = true;
+	private bool _facingLeft = false;
 	#endregion
 
 	#region Unity Callbacks
@@ -25,31 +25,31 @@ public class Player : MonoBehaviour
 	{
 		_anim.SetBool("Flying", _jetpack.Flying);
 	}
-	#endregion
+    #endregion
 
-	#region Public Methods
-	public void Move(float horizontalInput)
+    #region Public Methods
+    public void Move(float horizontalInput)
     {
-		if(!_jetpack.Flying)
+        if (!_jetpack.Flying)
         {
-			_rb.velocity = new Vector2(horizontalInput * _walkSpeed, _rb.velocity.y);
-			bool isWalking = Mathf.Abs(horizontalInput) > 0.1f;
-			_anim.SetBool("Walking", isWalking);
+            _rb.velocity = new Vector2(horizontalInput * _walkSpeed, _rb.velocity.y);
+            bool isWalking = Mathf.Abs(horizontalInput) > 0.1f;
+            _anim.SetBool("Walking", isWalking);
 
-			if (horizontalInput > 0 && !_facingLeft)
-				Flip();
-			else if (horizontalInput < 0 && _facingLeft)
-				Flip();
+            if (horizontalInput > 0 && !_facingLeft)
+                Flip();
+            else if (horizontalInput < 0 && _facingLeft)
+                Flip();
         }
     }
-	#endregion
+    #endregion
 
-	#region Private Methods
-	private void Flip()
+    #region Private Methods
+    private void Flip()
     {
-		_facingLeft = !_facingLeft;
-		_spriteRender.flipX = !_facingLeft;
+        _facingLeft = !_facingLeft;
+        _spriteRender.flipX = !_facingLeft;
     }
-	#endregion
+    #endregion
 
 }
