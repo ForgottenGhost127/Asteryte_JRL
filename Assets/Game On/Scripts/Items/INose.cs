@@ -1,32 +1,24 @@
 using UnityEngine;
 using System;
 
-public class INose : MonoBehaviour
-{    
-    #region Properties
-	#endregion
-
-	#region Fields
+public class INose : Item
+{
+	#region Constants
+	const float NOSE_DAMAGE = -20;
 	#endregion
 
 	#region Unity Callbacks
-	// Start is called before the first frame update
-	void Start()
-    {
-        
-    }
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.tag == "Ground")
+			Recolected();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+		if (collision.gameObject.tag == "Player")
+		{
+			Jetpack jetpack = collision.gameObject.GetComponent<Jetpack>();
+			jetpack.AddEnergy(NOSE_DAMAGE);
+			Recolected();
+		}
+	}
 	#endregion
-
-	#region Public Methods
-	#endregion
-
-	#region Private Methods
-	#endregion
-   
 }
