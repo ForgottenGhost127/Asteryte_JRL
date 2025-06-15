@@ -59,6 +59,7 @@ public class Jetpack : MonoBehaviour
 	public void FlyUp()
 	{
 		Flying = true;
+		DoFly();
 	}
 	public void StopFlying()
 	{

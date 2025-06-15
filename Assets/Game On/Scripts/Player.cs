@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 	private Rigidbody2D _rb;
 	private SpriteRenderer _spriteRender;
 	private bool _facingLeft = false;
+    private bool _isGrounded;
 	#endregion
 
 	#region Unity Callbacks
@@ -33,8 +34,14 @@ public class Player : MonoBehaviour
         if (!_jetpack.Flying)
         {
             _rb.velocity = new Vector2(horizontalInput * _walkSpeed, _rb.velocity.y);
-            bool isWalking = Mathf.Abs(horizontalInput) > 0.1f;
-            _anim.SetBool("Walking", isWalking);
+            //bool isWalking = Mathf.Abs(horizontalInput) > 0.1f;
+            //_anim.SetBool("Walking", isWalking);
+
+            if (_rb.velocity.x >= 0.01f || _rb.velocity.x <= -0.01f && _isGrounded)
+                _anim.SetBool("Walking", true);
+
+            if (_rb.velocity.x == 0 && !_isGrounded)
+                _anim.SetBool("Walking", false);
 
             if (horizontalInput > 0 && !_facingLeft)
                 Flip();
@@ -47,8 +54,32 @@ public class Player : MonoBehaviour
     #region Private Methods
     private void Flip()
     {
-        _facingLeft = !_facingLeft;
-        _spriteRender.flipX = !_facingLeft;
+        if (!_facingLeft)
+        {
+            _spriteRender.flipX = true;
+            _facingLeft = !_facingLeft;
+            return;
+        }
+        else
+        {
+            _spriteRender.flipX = false;
+            _facingLeft = false;
+        }
+            
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+            _isGrounded = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        //if (collision.gameObject.tag != "Ground")
+        //    _isGrounded = false;
+        if (collision.gameObject.tag == "Ground")
+              _isGrounded = false;
     }
     #endregion
 
