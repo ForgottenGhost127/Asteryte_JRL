@@ -9,23 +9,24 @@ public class InputController : MonoBehaviour
 	#endregion
 
 	#region Unity Callbacks
-    void Update()
-    {
-        //Walking
-        float horizontalInput = Input.GetAxis("Horizontal");
-        _player.Move(horizontalInput);
-
-        // Horizontal Fly
-        if (Input.GetAxis("Horizontal") < 0)
-            _jetpack.FlyHorizontal(Jetpack.Direction.Left);
-        if (Input.GetAxis("Horizontal") > 0)
+	void Update()
+	{
+		float horizontal = Input.GetAxis("Horizontal");
+		if(horizontal < 0)
+        {
+			_jetpack.FlyHorizontal(Jetpack.Direction.Left);
+			_player.SetDirect(Player.FacingDirection.Left);
+		} 
+		else if(horizontal > 0)
+		{
             _jetpack.FlyHorizontal(Jetpack.Direction.Right);
-        // Vertical Fly
+            _player.SetDirect(Player.FacingDirection.Right);
+        }
+
         if (Input.GetAxis("Vertical") > 0)
             _jetpack.FlyUp();
         else
             _jetpack.StopFlying();
-
 
     }
 	#endregion

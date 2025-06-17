@@ -25,14 +25,15 @@ public class Jetpack : MonoBehaviour
 	public bool Flying { get; set; }
 	#endregion
 
-	#region Fields
+	#region Fields							     
 	private Rigidbody2D _targetRB;
 	[SerializeField] private float _energy;
-	[SerializeField] private float _maxEnergy = 100f;
-	[SerializeField] private float _energyFlyingRatio = 1f;
-	[SerializeField] private float _energyRegenerationRatio = 0.5f;
-	[SerializeField] private float _horizontalForce = 5f;
-	[SerializeField] private float _flyForce = 10f;
+	[SerializeField] private float _maxEnergy;
+	[SerializeField] private float _energyFlyingRatio;
+	[SerializeField] private float _energyRegenerationRatio;
+	[SerializeField] private float _horizontalForce;
+	[SerializeField] private float _flyForce;
+
 	#endregion
 
 	#region Unity Callbacks
@@ -40,11 +41,13 @@ public class Jetpack : MonoBehaviour
 	{
 		_targetRB = GetComponent<Rigidbody2D>();
 	}
+	
 	void Start()
 	{
 		Energy = _maxEnergy;
 	}
 
+	
 	void FixedUpdate()
 	{
 		if (Flying)
@@ -53,13 +56,13 @@ public class Jetpack : MonoBehaviour
 		if (Mathf.Abs(_targetRB.velocity.y) < 0.1f)
 			Regenerate();
 	}
+
 	#endregion
 
 	#region Public Methods
 	public void FlyUp()
 	{
 		Flying = true;
-		DoFly();
 	}
 	public void StopFlying()
 	{
@@ -81,8 +84,10 @@ public class Jetpack : MonoBehaviour
 		if (!Flying)
 			return;
 
-		float horizontalVelocity = flyDirection == Direction.Left ? -_horizontalForce : _horizontalForce;
-		_targetRB.velocity = new Vector2(horizontalVelocity, _targetRB.velocity.y);
+		if (flyDirection == Direction.Left)
+			_targetRB.AddForce(Vector2.left * _horizontalForce);
+		else
+			_targetRB.AddForce(Vector2.right * _horizontalForce);
 
 	}
 	#endregion
@@ -92,9 +97,8 @@ public class Jetpack : MonoBehaviour
 	{
 		if (Energy > 0)
 		{
-			_targetRB.velocity = new Vector2(_targetRB.velocity.x, _flyForce);
+			_targetRB.AddForce(Vector2.up * _flyForce);
 			Energy -= _energyFlyingRatio;
-			Debug.Log($"Aplicando fuerza: {_flyForce}, Energía restante: {Energy}");
 		}
 		else
 			Flying = false;
