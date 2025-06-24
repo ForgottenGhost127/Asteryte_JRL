@@ -12,29 +12,41 @@ public class InputController : MonoBehaviour
 	void Update()
 	{
 		float horizontal = Input.GetAxis("Horizontal");
-		if(horizontal < 0)
-        {
-			_jetpack.FlyHorizontal(Jetpack.Direction.Left);
-			_player.SetDirect(Player.FacingDirection.Left);
-		} 
-		else if(horizontal > 0)
-		{
-            _jetpack.FlyHorizontal(Jetpack.Direction.Right);
-            _player.SetDirect(Player.FacingDirection.Right);
-        }
+		bool isFlying = Input.GetAxis("Vertical") > 0;
 
-        if (Input.GetAxis("Vertical") > 0)
-            _jetpack.FlyUp();
+		if(isFlying)
+        {
+			_jetpack.FlyUp();
+
+            if (horizontal < 0)
+            {
+                _jetpack.FlyHorizontal(Jetpack.Direction.Left);
+                _player.SetDirect(Player.FacingDirection.Left);
+            }
+            else if (horizontal > 0)
+            {
+                _jetpack.FlyHorizontal(Jetpack.Direction.Right);
+                _player.SetDirect(Player.FacingDirection.Right);
+            }
+        }
         else
+        {
             _jetpack.StopFlying();
 
+            if(Mathf.Abs(horizontal) > 0.1f)
+            {
+                if (horizontal < 0)
+                    _player.Walk(Player.FacingDirection.Left);
+                else
+                _player.Walk(Player.FacingDirection.Right);
+            }
+            else
+                _player.StopWalking();
+            
+        }
     }
 	#endregion
 
-	#region Public Methods
-	#endregion
-
-	#region Private Methods
-	#endregion
+	
 
 }
