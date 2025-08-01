@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class INose : Item
+public class INose : Item, IRecolectable
 {
 	#region Constants
 	const float NOSE_DAMAGE = -20;

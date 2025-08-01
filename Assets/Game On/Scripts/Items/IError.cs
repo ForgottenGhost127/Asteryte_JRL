@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class IError : Item
+public class IError : Item, IRecolectable
 {
     #region Constants
     const float ERROR_FORCE = 10000;

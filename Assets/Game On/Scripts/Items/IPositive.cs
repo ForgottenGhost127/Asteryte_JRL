@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class IPositive : Item
+public class IPositive : Item, IRecolectable
 {
 	#region Constants
 	const float POSITIVE_HEAL = 20;
