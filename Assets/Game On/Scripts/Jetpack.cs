@@ -51,7 +51,13 @@ public class Jetpack : MonoBehaviour
 	void FixedUpdate()
 	{
 		if (Flying)
+		{
 			DoFly();
+			if (Energy <= 0)
+			{
+				Flying = false;
+			}
+		}
 
 		if (Mathf.Abs(_targetRB.velocity.y) < 0.1f)
 			Regenerate();
@@ -62,7 +68,10 @@ public class Jetpack : MonoBehaviour
 	#region Public Methods
 	public void FlyUp()
 	{
-		Flying = true;
+		if (Energy > 0)
+		{
+			Flying = true;
+		}
 	}
 	public void StopFlying()
 	{
@@ -81,7 +90,7 @@ public class Jetpack : MonoBehaviour
 
 	public void FlyHorizontal(Direction flyDirection)
 	{
-		if (!Flying)
+		if (!Flying || Energy <= 0)
 			return;
 
 		if (flyDirection == Direction.Left)
@@ -100,8 +109,6 @@ public class Jetpack : MonoBehaviour
 			_targetRB.AddForce(Vector2.up * _flyForce);
 			Energy -= _energyFlyingRatio;
 		}
-		else
-			Flying = false;
 	}
 	#endregion
 
